@@ -1,25 +1,392 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f5f4ef"><title>CAATS University · Student counselling</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#163226">
+  <meta name="description" content="CAATS University Student Counselling Portal. Guided academic eligibility matching for Engineering, Computing, Sciences, and Skill programs.">
+  <title>CAATS University · Student Counselling Portal</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <header class="topbar"><a class="brand" href="/"><span class="brand-mark">C</span><span>CAATS <small>UNIVERSITY</small></span></a><nav><a href="#how">How it works</a><button class="text-button" id="account-link">Sign in</button></nav></header>
-  <main>
+  <!-- Header / Navigation Bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/" aria-label="CAATS University Home">
+        <span class="brand-crest">
+          <span class="crest-letter">C</span>
+          <span class="crest-ring"></span>
+        </span>
+        <div class="brand-text">
+          <span class="brand-name">CAATS</span>
+          <span class="brand-sub">UNIVERSITY</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="#how" class="nav-link">How it works</a>
+        <a href="#pathways" class="nav-link">Academic Paths</a>
+        <button class="auth-btn" id="account-link" type="button">
+          <span class="btn-icon">✦</span>
+          <span class="btn-text">Sign in</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
     <section class="hero" id="home">
-      <div class="hero-copy"><span class="eyebrow"><i></i> YOUR NEXT CHAPTER STARTS HERE</span><h1>Find a path that<br><em>feels like yours.</em></h1><p>A simple, guided counselling experience shaped around your studies, interests, and goals.</p><div class="hero-actions"><button class="button primary" id="start-btn">Start counselling <span>↗</span></button><a class="button quiet" href="#how">How it works <span>↓</span></a></div><div class="hero-proof"><div class="avatars"><b>✦</b><b>↗</b><b>●</b></div><span>Small steps. Clearer direction.</span></div></div>
-      <div class="hero-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="art-core"><span>YOUR<br>FUTURE</span><b>✳</b></div><div class="float-card card-top"><span class="mini-icon lavender">✦</span><span><b>Discover</b><small>What inspires you</small></span></div><div class="float-card card-bottom"><span class="mini-icon mint">↗</span><span><b>Choose</b><small>A path with purpose</small></span></div><span class="spark spark-a">✳</span><span class="spark spark-b">✳</span></div>
+      <div class="hero-container">
+        <div class="hero-copy">
+          <div class="badge-pill">
+            <span class="badge-dot"></span>
+            <span>CAATS ADMISSIONS & COUNSELLING · 2026–27</span>
+          </div>
+          <h1>Find an academic path that <br><em>feels truly yours.</em></h1>
+          <p class="hero-lead">
+            Personalized academic guidance designed around your marks, interests, and future ambitions. Explore degree eligibility and specialized skill tracks with complete transparency.
+          </p>
+          <div class="hero-actions">
+            <button class="button primary glow" id="start-btn" type="button">
+              <span>Start counselling</span>
+              <span class="arrow">↗</span>
+            </button>
+            <a class="button outline" href="#how">
+              <span>Explore how it works</span>
+              <span class="arrow">↓</span>
+            </a>
+          </div>
+          <div class="hero-proof">
+            <div class="proof-avatars">
+              <span class="avatar-tag gold">★</span>
+              <span class="avatar-tag sage">✦</span>
+              <span class="avatar-tag mint">↗</span>
+            </div>
+            <div class="proof-text">
+              <strong>Rule-Verified Guidance</strong>
+              <small>Standardized scoring across BTech, BSc, BCA &amp; Skills</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-backdrop">
+            <div class="ambient-glow"></div>
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            <div class="art-emblem">
+              <span class="emblem-crest">C</span>
+              <span class="emblem-label">EST. 2026</span>
+              <span class="emblem-spark">✳</span>
+            </div>
+          </div>
+          <!-- Floating Feature Badges -->
+          <div class="floating-badge badge-top">
+            <div class="badge-icon icon-sage">✦</div>
+            <div class="badge-info">
+              <b>Automated Eligibility</b>
+              <small>BTech, BSc, BCA &amp; Diploma</small>
+            </div>
+          </div>
+          <div class="floating-badge badge-bottom">
+            <div class="badge-icon icon-gold">↗</div>
+            <div class="badge-info">
+              <b>Career &amp; Masterclasses</b>
+              <small>Industry skill pathways</small>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-    <section class="ticker"><span>STUDENT FIRST</span><b>✳</b><span>BUILT AROUND YOUR INTERESTS</span><b>✳</b><span>ONE STEP AT A TIME</span><b>✳</b><span>YOUR JOURNEY, YOUR PACE</span></section>
-    <section class="how" id="how"><div class="section-heading"><span class="eyebrow">A LITTLE GUIDANCE GOES A LONG WAY</span><h2>Three steps to a <em>starting point.</em></h2><p>No complicated forms. Just a few thoughtful questions to help you explore.</p></div><div class="steps"><article><span class="step-no">01</span><div class="step-icon peach">◉</div><h3>Tell us about you</h3><p>Share where you are in your learning journey and what matters to you.</p></article><article><span class="step-no">02</span><div class="step-icon lilac">⌁</div><h3>Explore your options</h3><p>Follow a guided route through school, college, or skills pathways.</p></article><article><span class="step-no">03</span><div class="step-icon green">✳</div><h3>Save your direction</h3><p>Keep your recommendation on your profile and come back whenever you like.</p></article></div></section>
-    <section class="cta"><div><span class="eyebrow">YOUR STORY IS STILL UNFOLDING</span><h2>Let's find your<br><em>next step.</em></h2></div><button class="button light" id="start-bottom">Begin your journey <span>↗</span></button><span class="cta-spark">✳</span></section>
-    <section class="account-section" id="account-section" hidden aria-modal="true" role="dialog" aria-labelledby="auth-title"><div class="account-card"><button class="close" id="close-account" aria-label="Close">×</button><span class="eyebrow">YOUR CAATS SPACE</span><h2 id="auth-title">Welcome back.</h2><p id="auth-sub">Sign in to save your profile and counselling results.</p><form id="auth-form"><label id="name-wrap" hidden>Your name<input name="name" autocomplete="name" placeholder="How should we call you?"></label><label>Email address<input name="email" type="email" required autocomplete="email" placeholder="you@example.com"></label><label>Password<input name="password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></label><button class="button primary full" id="auth-submit">Sign in <span>↗</span></button></form><p class="auth-switch"><span id="switch-copy">New to CAATS?</span> <button class="text-button" id="switch-auth">Create an account</button></p><p class="notice" id="auth-notice" role="status" aria-live="polite"></p></div></section>
-    <section class="workspace" id="workspace" hidden><div class="workspace-head"><div><span class="eyebrow">YOUR STUDENT SPACE</span><h2>Welcome, <em id="student-name">there</em>.</h2><p>Your saved profile and counselling sessions are here.</p></div><button class="text-button" id="logout">Sign out ↗</button></div><div class="profile-strip"><span class="profile-dot">✳</span><div><small>YOUR PROFILE</small><b id="profile-text">Tell us a little about yourself in counselling.</b></div><button class="text-button" id="workspace-start">Start a session ↗</button></div><div class="history-head"><h3>Saved recommendations</h3><span id="history-count">0 sessions</span></div><div class="history" id="history"></div></section>
+
+    <!-- Academic Ticker -->
+    <section class="ticker" aria-label="Key highlights">
+      <div class="ticker-track">
+        <div class="ticker-content">
+          <span>ACADEMIC INTEGRITY</span><b>✳</b>
+          <span>DIRECT DEGREE ELIGIBILITY</span><b>✳</b>
+          <span>PERSONALIZED PATHWAYS</span><b>✳</b>
+          <span>ENGINEERING · COMPUTING · SCIENCES</span><b>✳</b>
+          <span>SKILLS &amp; MASTERCLASSES</span><b>✳</b>
+          <span>LOCAL SQLITE PERSISTENCE</span><b>✳</b>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how" id="how">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-eyebrow">A CLEAR, THOUGHTFUL JOURNEY</span>
+          <h2>Three simple steps to your <em>starting point.</em></h2>
+          <p>No confusing jargon or complex paperwork. Just a few guided questions to clarify where you stand and what options match your score.</p>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <div class="card-number">01</div>
+            <div class="step-icon-wrap icon-bg-peach">
+              <span class="step-icon">◉</span>
+            </div>
+            <h3>Share Your Background</h3>
+            <p>Tell us whether you are a high school student, preparing for college, or a working learner looking to upgrade skills.</p>
+            <div class="card-footer-tag">Personal Profile</div>
+          </article>
+
+          <article class="step-card">
+            <div class="card-number">02</div>
+            <div class="step-icon-wrap icon-bg-lilac">
+              <span class="step-icon">⌁</span>
+            </div>
+            <h3>Provide Your Scores</h3>
+            <p>Enter your Class 12 percentage or CAATS JEE percentile to view available branches, subjects, or short-term programs.</p>
+            <div class="card-footer-tag">Scored Eligibility</div>
+          </article>
+
+          <article class="step-card">
+            <div class="card-number">03</div>
+            <div class="step-icon-wrap icon-bg-green">
+              <span class="step-icon">✳</span>
+            </div>
+            <h3>Save Your Recommendation</h3>
+            <p>Receive your personalized recommendation with full rule transparency and retain it securely in your student space.</p>
+            <div class="card-footer-tag">Saved Direction</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academic Pathways Showcase -->
+    <section class="disciplines" id="pathways">
+      <div class="section-container">
+        <div class="section-heading">
+          <span class="section-eyebrow">CAATS UNIVERSITY PROGRAMS</span>
+          <h2>Explore our academic <em>faculties.</em></h2>
+          <p>Carefully structured academic routes following CAATS University admission criteria.</p>
+        </div>
+
+        <div class="disciplines-grid">
+          <div class="discipline-card">
+            <div class="discipline-top">
+              <span class="discipline-badge">Faculty of Engineering</span>
+              <span class="discipline-tag">4 Years</span>
+            </div>
+            <h3>B.Tech Engineering</h3>
+            <p>Specializations in Core CSE, AI &amp; Machine Learning, Cyber Security, Data Science, Information Technology, ECE, Mechanical, and Civil.</p>
+            <ul class="discipline-specs">
+              <li>Requires 75%+ in 12th &amp; CAATS JEE</li>
+              <li>Percentile bands from 35 to 100</li>
+            </ul>
+          </div>
+
+          <div class="discipline-card">
+            <div class="discipline-top">
+              <span class="discipline-badge">Faculty of Computing</span>
+              <span class="discipline-tag">3 Years</span>
+            </div>
+            <h3>BCA (Computer Applications)</h3>
+            <p>Hands-on software disciplines including Artificial Intelligence, Cloud Computing, Cyber Security, Software Development, and Internet of Things.</p>
+            <ul class="discipline-specs">
+              <li>Eligibility starts at 55%+ in 12th</li>
+              <li>Tiered specializations by score</li>
+            </ul>
+          </div>
+
+          <div class="discipline-card">
+            <div class="discipline-top">
+              <span class="discipline-badge">Faculty of Pure &amp; Applied Sciences</span>
+              <span class="discipline-tag">3 Years</span>
+            </div>
+            <h3>B.Sc Sciences</h3>
+            <p>Traditional and advanced science degrees in Physics, Mathematics, Statistics, Economics, Computer Science, Chemistry, Electronics, and Biotechnology.</p>
+            <ul class="discipline-specs">
+              <li>Eligibility starts at 40%+ in 12th</li>
+              <li>Subject eligibility mapped by mark</li>
+            </ul>
+          </div>
+
+          <div class="discipline-card">
+            <div class="discipline-top">
+              <span class="discipline-badge">School of Modern Skills</span>
+              <span class="discipline-tag">Flexible</span>
+            </div>
+            <h3>Skills &amp; Master Classes</h3>
+            <p>Self-paced career acceleration in Content Creation, Video Editing, Digital Marketing, Entrepreneurship, and 4-hour advanced Master Classes.</p>
+            <ul class="discipline-specs">
+              <li>Open to students and working adults</li>
+              <li>Includes AI/ML &amp; Cloud Leadership</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="cta-section">
+      <div class="cta-banner">
+        <div class="cta-art-glow" aria-hidden="true"></div>
+        <div class="cta-text">
+          <span class="cta-eyebrow">READY TO TAKE THE NEXT STEP?</span>
+          <h2>Let's discover your<br><em>counselling path today.</em></h2>
+          <p>Join students and professionals who have navigated their career direction with CAATS University.</p>
+        </div>
+        <div class="cta-action">
+          <button class="button light glow" id="start-bottom" type="button">
+            <span>Begin your journey</span>
+            <span class="arrow">↗</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Student Space / Workspace (Shown after login) -->
+    <section class="workspace" id="workspace" hidden>
+      <div class="workspace-inner">
+        <div class="workspace-header">
+          <div class="student-profile-badge">
+            <div class="avatar-circle" id="student-avatar">C</div>
+            <div class="student-info">
+              <span class="workspace-eyebrow">YOUR STUDENT SPACE</span>
+              <h2>Welcome, <em id="student-name">there</em>.</h2>
+              <p>Your saved profile and counselling session history are preserved here.</p>
+            </div>
+          </div>
+          <button class="button quiet-danger" id="logout" type="button">
+            <span>Sign out</span>
+            <span class="arrow">↗</span>
+          </button>
+        </div>
+
+        <!-- Profile Bar -->
+        <div class="profile-strip">
+          <div class="profile-strip-icon">✳</div>
+          <div class="profile-strip-details">
+            <small>CURRENT PROFILE STATUS</small>
+            <b id="profile-text">Tell us a little about yourself in counselling.</b>
+          </div>
+          <button class="button secondary small" id="workspace-start" type="button">
+            <span>Start new session ↗</span>
+          </button>
+        </div>
+
+        <!-- Recommendations History -->
+        <div class="history-section">
+          <div class="history-head">
+            <div>
+              <h3>Saved recommendations</h3>
+              <p class="history-subtitle">All counselling results saved with your account</p>
+            </div>
+            <span class="history-count-badge" id="history-count">0 sessions</span>
+          </div>
+          <div class="history-list" id="history">
+            <!-- Dynamically populated or shows empty state -->
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
-  <footer><a class="brand" href="#home"><span class="brand-mark">C</span><span>CAATS <small>UNIVERSITY</small></span></a><span>A clearer next step, at your own pace.</span><span>© CAATS University</span></footer>
-  <div class="modal" id="wizard" hidden role="dialog" aria-modal="true" aria-labelledby="wizard-title"><div class="wizard-panel"><button class="close" id="wizard-close" aria-label="Close">×</button><div class="wizard-top"><span class="eyebrow" id="wizard-kicker">YOUR COUNSELLING JOURNEY</span><div class="progress"><span id="progress-fill"></span></div><small id="step-count">STEP 1 OF 4</small></div><div id="wizard-content"></div><div class="wizard-actions"><button class="button quiet" id="wizard-back" hidden>← Back</button><button class="button primary" id="wizard-next">Continue <span>→</span></button></div><p class="notice" id="wizard-notice" role="status" aria-live="polite"></p></div></div>
+
+  <!-- Account Modal (Sign In / Register) -->
+  <section class="account-section" id="account-section" hidden aria-modal="true" role="dialog" aria-labelledby="auth-title">
+    <div class="account-backdrop" id="auth-backdrop"></div>
+    <div class="account-card">
+      <button class="close-btn" id="close-account" type="button" aria-label="Close dialog">×</button>
+      <div class="auth-header">
+        <span class="auth-crest">C</span>
+        <span class="eyebrow">YOUR CAATS SPACE</span>
+        <h2 id="auth-title">Welcome back.</h2>
+        <p id="auth-sub">Sign in to save your profile and counselling results.</p>
+      </div>
+
+      <!-- Auth Mode Switch Tabs -->
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" id="tab-signin" type="button" role="tab">Sign in</button>
+        <button class="auth-tab" id="tab-register" type="button" role="tab">Create account</button>
+      </div>
+
+      <form id="auth-form" novalidate>
+        <div class="form-field" id="name-wrap" hidden>
+          <label for="auth-name">Your full name</label>
+          <input id="auth-name" name="name" autocomplete="name" placeholder="For example: Alex Morgan">
+        </div>
+        <div class="form-field">
+          <label for="auth-email">Email address</label>
+          <input id="auth-email" name="email" type="email" required autocomplete="email" placeholder="student@caats.edu">
+        </div>
+        <div class="form-field">
+          <label for="auth-password">Password</label>
+          <input id="auth-password" name="password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters">
+          <small class="field-hint">Must be 8 or more characters</small>
+        </div>
+        <button class="button primary full glow" id="auth-submit" type="submit">
+          <span>Sign in</span>
+          <span class="arrow">↗</span>
+        </button>
+      </form>
+
+      <div class="auth-switch-box">
+        <span id="switch-copy">New to CAATS University?</span>
+        <button class="text-link" id="switch-auth" type="button">Create an account</button>
+      </div>
+      <p class="notice" id="auth-notice" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Counselling Wizard Modal -->
+  <div class="modal" id="wizard" hidden role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+    <div class="modal-backdrop" id="wizard-backdrop"></div>
+    <div class="wizard-panel">
+      <button class="close-btn" id="wizard-close" type="button" aria-label="Close counselling modal">×</button>
+      
+      <!-- Wizard Header & Progress Bar -->
+      <div class="wizard-header">
+        <div class="wizard-title-row">
+          <span class="wizard-kicker" id="wizard-kicker">YOUR COUNSELLING JOURNEY</span>
+          <span class="step-badge" id="step-count">STEP 1 OF 4</span>
+        </div>
+        <div class="progress-bar-track" aria-hidden="true">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Dynamic Wizard Form Content -->
+      <div class="wizard-body" id="wizard-content"></div>
+
+      <!-- Wizard Navigation Actions -->
+      <div class="wizard-actions">
+        <button class="button quiet" id="wizard-back" type="button" hidden>
+          <span class="arrow">←</span>
+          <span>Back</span>
+        </button>
+        <button class="button primary glow" id="wizard-next" type="button">
+          <span>Continue</span>
+          <span class="arrow">→</span>
+        </button>
+      </div>
+      <p class="notice" id="wizard-notice" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="#home">
+          <span class="brand-crest small">
+            <span class="crest-letter">C</span>
+          </span>
+          <span class="brand-name">CAATS <small>UNIVERSITY</small></span>
+        </a>
+        <p class="footer-motto">A clearer next step for every student, at your own pace.</p>
+      </div>
+      <div class="footer-meta">
+        <span>© 2026 CAATS University. All rights reserved.</span>
+        <span class="footer-note">Counselling demo system for student exploration.</span>
+      </div>
+    </div>
+  </footer>
+
   <script src="/app.js" defer></script>
 </body>
 </html>
