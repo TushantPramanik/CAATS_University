@@ -283,6 +283,20 @@
             <!-- Dynamically populated or shows empty state -->
           </div>
         </div>
+
+        <!-- Enrollments & Fee Receipts History -->
+        <div class="history-section enrollments-section" id="enrollments-section" hidden>
+          <div class="history-head">
+            <div>
+              <h3>Enrolled courses &amp; receipts</h3>
+              <p class="history-subtitle">Confirmed batch purchases and official payment records from L_bat_prch.py</p>
+            </div>
+            <span class="history-count-badge gold-badge" id="enrollments-count">0 enrolled</span>
+          </div>
+          <div class="history-list" id="enrollments-list">
+            <!-- Dynamically populated with active enrollments -->
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -365,6 +379,316 @@
         </button>
       </div>
       <p class="notice" id="wizard-notice" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- Secure Payment Gateway Modal -->
+  <div class="modal" id="payment-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pay-title">
+    <div class="modal-backdrop" id="pay-backdrop"></div>
+    <div class="pay-panel">
+      <button class="close-btn" id="pay-close" type="button" aria-label="Close payment modal">×</button>
+      
+      <!-- Payment Modal Header -->
+      <div class="pay-header">
+        <div class="pay-crest-row">
+          <span class="auth-crest small-crest">C</span>
+          <div>
+            <span class="wizard-kicker">SECURE BURSAR &amp; PAYMENT GATEWAY</span>
+            <h2 id="pay-title">Course Enrollment &amp; Fee Payment</h2>
+          </div>
+        </div>
+        <div class="security-seal">
+          <span class="seal-icon">🔒</span>
+          <span>256-bit SSL Encrypted</span>
+        </div>
+      </div>
+
+      <!-- Payment Body: Grid with Plan Selection & Payment Form -->
+      <div class="pay-body" id="pay-body-content">
+        <div class="pay-grid">
+          <!-- Left: Order & Plan Selector -->
+          <div class="pay-order-col">
+            <div class="order-summary-box">
+              <span class="order-label">SELECTED ACADEMIC BATCH</span>
+              <h3 id="pay-course-name">BTech Engineering Track</h3>
+              <span class="order-category-tag" id="pay-course-category">BTech Recommendation</span>
+
+              <div class="plan-selector-heading">
+                <span>Select Payment Schedule</span>
+                <small>Flexible options mapped from L_bat_prch.py</small>
+              </div>
+
+              <div class="plan-options-grid">
+                <label class="plan-option active" data-plan="semester">
+                  <input type="radio" name="pay_plan" value="semester" checked>
+                  <div class="plan-option-content">
+                    <div class="plan-option-top">
+                      <strong class="plan-name">Semester-wise</strong>
+                      <span class="plan-price" id="price-semester">₹80,000</span>
+                    </div>
+                    <span class="plan-desc" id="desc-semester">1 Semester (6 months) tuition</span>
+                  </div>
+                </label>
+
+                <label class="plan-option" data-plan="half_yearly">
+                  <input type="radio" name="pay_plan" value="half_yearly">
+                  <div class="plan-option-content">
+                    <div class="plan-option-top">
+                      <strong class="plan-name">Half-Yearly</strong>
+                      <span class="plan-price" id="price-half-yearly">₹80,000</span>
+                    </div>
+                    <span class="plan-desc" id="desc-half-yearly">Semi-annual course installment</span>
+                  </div>
+                </label>
+
+                <label class="plan-option" data-plan="yearly">
+                  <input type="radio" name="pay_plan" value="yearly">
+                  <div class="plan-option-content">
+                    <div class="plan-option-top">
+                      <strong class="plan-name">Yearly Plan</strong>
+                      <span class="plan-badge">Best Value</span>
+                      <span class="plan-price" id="price-yearly">₹1,55,000</span>
+                    </div>
+                    <span class="plan-desc" id="desc-yearly">Annual (2 Semesters) · Save up to 5%</span>
+                  </div>
+                </label>
+
+                <label class="plan-option" data-plan="full">
+                  <input type="radio" name="pay_plan" value="full">
+                  <div class="plan-option-content">
+                    <div class="plan-option-top">
+                      <strong class="plan-name">Full Degree Program</strong>
+                      <span class="plan-price" id="price-full">₹6,00,000</span>
+                    </div>
+                    <span class="plan-desc" id="desc-full">Full degree batch fee upfront</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Price Breakdown -->
+              <div class="order-breakdown">
+                <div class="breakdown-row">
+                  <span>Tuition &amp; Faculty Fee</span>
+                  <strong id="summary-tuition">₹80,000</strong>
+                </div>
+                <div class="breakdown-row">
+                  <span>Digital Lab &amp; Library Access</span>
+                  <span class="free-tag">Complimentary</span>
+                </div>
+                <div class="breakdown-row total-row">
+                  <span>Total Amount Due</span>
+                  <strong class="total-amount" id="summary-total">₹80,000</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Payment Method & Details -->
+          <div class="pay-method-col">
+            <div class="pay-methods-tabs" role="tablist">
+              <button class="pay-tab active" id="tab-pay-card" data-method="card" type="button">
+                <span>💳 Card</span>
+              </button>
+              <button class="pay-tab" id="tab-pay-upi" data-method="upi" type="button">
+                <span>⚡ UPI / QR</span>
+              </button>
+              <button class="pay-tab" id="tab-pay-netbanking" data-method="netbanking" type="button">
+                <span>🏛 Net Banking</span>
+              </button>
+            </div>
+
+            <!-- Card Payment Section -->
+            <div class="pay-method-panel" id="method-card">
+              <!-- Realistic Live Virtual Card Preview -->
+              <div class="virtual-card-preview" id="virtual-card">
+                <div class="card-chip-row">
+                  <div class="card-chip"></div>
+                  <div class="contactless-icon">))))</div>
+                  <span class="card-brand-logo" id="card-brand-display">VISA</span>
+                </div>
+                <div class="card-number-display" id="card-num-preview">•••• •••• •••• ••••</div>
+                <div class="card-footer-row">
+                  <div class="card-holder-col">
+                    <small>CARDHOLDER</small>
+                    <div id="card-name-preview">STUDENT NAME</div>
+                  </div>
+                  <div class="card-expiry-col">
+                    <small>EXPIRES</small>
+                    <div id="card-exp-preview">MM/YY</div>
+                  </div>
+                </div>
+              </div>
+
+              <form class="pay-form" id="card-form" onsubmit="return false;">
+                <div class="form-field">
+                  <label for="pay-card-num">Card number</label>
+                  <input id="pay-card-num" type="text" inputmode="numeric" maxlength="19" placeholder="4532 8900 1234 5678" required>
+                </div>
+                <div class="form-field">
+                  <label for="pay-card-name">Name on card</label>
+                  <input id="pay-card-name" type="text" placeholder="Full name as printed on card" required>
+                </div>
+                <div class="form-row-2">
+                  <div class="form-field">
+                    <label for="pay-card-exp">Expiry (MM/YY)</label>
+                    <input id="pay-card-exp" type="text" maxlength="5" placeholder="12/28" required>
+                  </div>
+                  <div class="form-field">
+                    <label for="pay-card-cvv">CVV / CVC</label>
+                    <input id="pay-card-cvv" type="password" maxlength="4" placeholder="•••" required>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- UPI Payment Section -->
+            <div class="pay-method-panel" id="method-upi" hidden>
+              <div class="upi-box">
+                <div class="qr-code-wrapper">
+                  <div class="qr-simulated-box" aria-label="Scan QR Code to pay">
+                    <svg viewBox="0 0 100 100" class="qr-svg" width="130" height="130">
+                      <rect width="100" height="100" fill="#ffffff"/>
+                      <path d="M10,10 h24 v24 h-24 z M14,14 v16 h16 v-16 z M18,18 h8 v8 h-8 z" fill="#0d233a"/>
+                      <path d="M66,10 h24 v24 h-24 z M70,14 v16 h16 v-16 z M74,18 h8 v8 h-8 z" fill="#0d233a"/>
+                      <path d="M10,66 h24 v24 h-24 z M14,70 v16 h16 v-16 z M18,74 h8 v8 h-8 z" fill="#0d233a"/>
+                      <rect x="42" y="10" width="6" height="18" fill="#0d233a"/>
+                      <rect x="52" y="14" width="8" height="6" fill="#0d233a"/>
+                      <rect x="42" y="32" width="16" height="6" fill="#0d233a"/>
+                      <rect x="10" y="42" width="18" height="6" fill="#0d233a"/>
+                      <rect x="18" y="52" width="10" height="8" fill="#0d233a"/>
+                      <rect x="36" y="44" width="28" height="12" fill="#0d233a"/>
+                      <rect x="68" y="42" width="22" height="6" fill="#0d233a"/>
+                      <rect x="76" y="52" width="14" height="8" fill="#0d233a"/>
+                      <rect x="42" y="66" width="8" height="24" fill="#0d233a"/>
+                      <rect x="54" y="66" width="14" height="8" fill="#0d233a"/>
+                      <rect x="72" y="66" width="18" height="12" fill="#0d233a"/>
+                      <rect x="54" y="80" width="36" height="10" fill="#0d233a"/>
+                    </svg>
+                  </div>
+                  <span class="qr-caption">Scan with Google Pay, PhonePe, or Paytm</span>
+                </div>
+                <div class="upi-or-divider"><span>OR ENTER VPA / UPI ID</span></div>
+                <div class="form-field">
+                  <input id="pay-upi-id" type="text" placeholder="studentname@okaxis / mobile@upi">
+                  <small class="field-hint">A verification request will be sent to your UPI app</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Net Banking Section -->
+            <div class="pay-method-panel" id="method-netbanking" hidden>
+              <div class="netbanking-grid">
+                <label class="bank-choice active">
+                  <input type="radio" name="bank" value="sbi" checked>
+                  <span class="bank-name">State Bank of India</span>
+                </label>
+                <label class="bank-choice">
+                  <input type="radio" name="bank" value="hdfc">
+                  <span class="bank-name">HDFC Bank</span>
+                </label>
+                <label class="bank-choice">
+                  <input type="radio" name="bank" value="icici">
+                  <span class="bank-name">ICICI Bank</span>
+                </label>
+                <label class="bank-choice">
+                  <input type="radio" name="bank" value="axis">
+                  <span class="bank-name">Axis Bank</span>
+                </label>
+                <label class="bank-choice">
+                  <input type="radio" name="bank" value="pnb">
+                  <span class="bank-name">Punjab National Bank</span>
+                </label>
+                <label class="bank-choice">
+                  <input type="radio" name="bank" value="kotak">
+                  <span class="bank-name">Kotak Mahindra</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Pay Submit Button -->
+            <div class="pay-submit-wrapper">
+              <button class="button primary full glow" id="btn-confirm-pay" type="button">
+                <span id="btn-pay-label">Pay ₹80,000 Securely</span>
+                <span class="arrow">🔒</span>
+              </button>
+              <small class="ssl-guarantee">Simulated demo gateway for CAATS University. No real card will be charged.</small>
+              <p class="notice" id="pay-notice" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Processing State Overlay -->
+      <div class="pay-processing-state" id="pay-processing" hidden>
+        <div class="processing-spinner"></div>
+        <h3 id="proc-stage-title">Connecting to CAATS Bursar...</h3>
+        <p id="proc-stage-sub">Securing session with 3D-Secure 2.0 gateway</p>
+      </div>
+
+      <!-- Success Receipt View -->
+      <div class="pay-receipt-state" id="pay-receipt" hidden>
+        <div class="receipt-card-print" id="receipt-printable">
+          <div class="receipt-header">
+            <div class="receipt-crest">C</div>
+            <div class="receipt-meta">
+              <h4>CAATS UNIVERSITY</h4>
+              <span class="receipt-sub">OFFICIAL BURSAR FEE RECEIPT · BATCH PURCHASE</span>
+            </div>
+            <div class="receipt-status-badge">PAID ✓</div>
+          </div>
+
+          <div class="receipt-divider"></div>
+
+          <div class="receipt-grid">
+            <div class="receipt-row">
+              <span>Transaction ID:</span>
+              <strong id="rcpt-txn-id">CAATS-TXN-2026-9921</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Date &amp; Time:</span>
+              <span id="rcpt-date">2026-11-20 00:15:00</span>
+            </div>
+            <div class="receipt-row">
+              <span>Student Name:</span>
+              <strong id="rcpt-name">Alex Morgan</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Registered Email:</span>
+              <span id="rcpt-email">student@caats.edu</span>
+            </div>
+            <div class="receipt-row">
+              <span>Enrolled Course:</span>
+              <strong id="rcpt-course">BTech Engineering · CORE CSE</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Schedule Plan:</span>
+              <span id="rcpt-plan">Semester-wise (1 Semester)</span>
+            </div>
+            <div class="receipt-row">
+              <span>Payment Method:</span>
+              <span id="rcpt-method">CARD (•••• 8821)</span>
+            </div>
+            <div class="receipt-row amount-row">
+              <span>Amount Received:</span>
+              <strong class="rcpt-amount" id="rcpt-amount">₹80,000</strong>
+            </div>
+          </div>
+
+          <div class="receipt-footer-note">
+            This digital receipt confirms your course batch purchase in accordance with CAATS University console module L_bat_prch.py. Retain this confirmation for semester registration.
+          </div>
+        </div>
+
+        <div class="receipt-actions">
+          <button class="button secondary" id="btn-print-receipt" type="button">
+            <span>🖨 Print / Save Receipt</span>
+          </button>
+          <button class="button primary glow" id="btn-done-payment" type="button">
+            <span>View in My Space</span>
+            <span class="arrow">✓</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

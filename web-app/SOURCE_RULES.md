@@ -28,8 +28,8 @@ These issues are present in the source, so the site reports them instead of quie
 - **BCA 70% to below 75%:** no `if` branch handles this range. The site records that no recommendation is defined.
 - **BSc exactly 40%:** the `>=40 and <45` branch offers Biotechnology, but a later `<=40` branch says not eligible. The website follows the Biotechnology branch at exactly 40% and attaches a warning.
 - **BTech decimal percentile:** the code uses whole-number bands such as 75–84 and 65–74, so decimal values between bands are not covered. The site flags decimal scores when a result is produced; uncovered values have no defined branch.
-- **Diploma:** the college flow imports `K_diploma_clg_dep.py`, which was not among the eight uploads. The site can save a Diploma selection but does not claim eligibility or course rules.
-- **Follow-up actions:** the course and school modules import `L_bat_prch.py`, also not uploaded. The site carries over the destination choices but not the missing follow-up/practice actions.
+- **Diploma:** `K_diploma_clg_dep.py` is now integrated into the website. It requires Class 10 marks (minimum 35%) and offers 5 engineering branches (Civil, Mechanical, Electrical, Electronics & Communication, and Automobile) with batch fee details from `L_bat_prch.py` (3 years, 6 semesters, ₹25,000/sem).
+- **Diploma Class 12 threshold conflict:** `E_clg_brch_choos.py` offers Diploma starting at 33% in Class 12, whereas `K_diploma_clg_dep.py` checks for `res_12 >= 34%`. The site allows entry at 33% and attaches an explicit threshold warning for the 33%–below-34% band.
 - **Age labels:** the source age bands overlap at some real ages (for example, 13–14 and 14–15). The site preserves the same labels and does not convert a numeric age into a band.
 - **BTech programming at 75–84:** the source shows Programming as an interest but its branch-choice block has no Programming case. The site lists the interest from the source and will return an explicit validation message instead of silently selecting a branch.
 

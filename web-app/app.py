@@ -22,6 +22,14 @@ MASTERS = ["AI and ML", "Technical Leadership", "System Design", "Fundamentals o
 SCHOOL_GOALS = ["Boards", "Olympiad"]
 BSC = ["Physics", "Mathematics", "Statistics", "Economics", "Computer Science", "Chemistry", "Electronics", "Biotechnology"]
 BCA = ["Artificial Intelligence and Machine Learning", "Cloud Computing", "Cyber Security", "Software Development", "Internet of Things"]
+DIPLOMA_BRANCHES = ["Civil Engineering", "Mechanical Engineering", "Electrical Engineering", "Electronics & Communication Engineering", "Automobile Engineering"]
+DIPLOMA_DESCRIPTIONS = {
+    "Civil Engineering": "Shaping the future through roads, bridges, and modern infrastructure.",
+    "Mechanical Engineering": "Bringing machines and innovation to life.",
+    "Electrical Engineering": "Powering the world with electricity and technology.",
+    "Electronics & Communication Engineering": "Connecting people through advanced communication systems.",
+    "Automobile Engineering": "Driving innovation in the automotive industry."
+}
 INTERESTS = ["Programming", "Artificial Intelligence", "Security & Hacking", "Data Analysis", "Electronics", "Machines & Automobiles", "Construction & Design", "Electrical Systems", "Production", "Agricultural", "Food", "Printing"]
 
 BTECH_GROUPS = {
@@ -90,6 +98,19 @@ def init_db():
         CREATE TABLE IF NOT EXISTS recommendations (
             id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             answers TEXT NOT NULL, result TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE TABLE IF NOT EXISTS enrollments (
+            id INTEGER PRIMARY KEY,
+            user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            recommendation_id INTEGER REFERENCES recommendations(id) ON DELETE SET NULL,
+            course_title TEXT NOT NULL,
+            category TEXT NOT NULL,
+            plan_type TEXT NOT NULL,
+            amount REAL NOT NULL,
+            payment_method TEXT NOT NULL,
+            transaction_id TEXT UNIQUE NOT NULL,
+            status TEXT NOT NULL DEFAULT 'SUCCESS',
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         """)
 
@@ -228,8 +249,31 @@ def recommendation(a):
 
     # Diploma Course
     if course == "Diploma":
-        warnings.append("The diploma rules are unavailable: the referenced K_diploma_clg_dep.py file was not included.")
-        return {"title": "Diploma pathway", "category": "College pathway", "detail": "Diploma selected. Eligibility and courses need the original diploma module to verify.", "warnings": warnings}
+        tenth_mark = validate_score(a.get("tenth_percentage"), "class 10 percentage")
+        if tenth_mark < 35:
+            return {
+                "title": "No diploma admission path defined",
+                "category": "Eligibility result",
+                "detail": "The source project (K_diploma_clg_dep.py) requires at least 35% in class 10 for diploma admission."
+            }
+
+        if mark < 34:
+            warnings.append("Threshold conflict: E_clg_brch_choos.py offers Diploma at 33%, but K_diploma_clg_dep.py checks for >= 34% in class 12.")
+
+        selected = a.get("choice")
+        if selected == "Electronics AND Communications":
+            selected = "Electronics & Communication Engineering"
+
+        if selected not in DIPLOMA_BRANCHES:
+            raise ValueError("Select one of the diploma branches: " + ", ".join(DIPLOMA_BRANCHES))
+
+        desc = DIPLOMA_DESCRIPTIONS.get(selected, "")
+        return {
+            "title": f"Diploma in {selected}",
+            "category": "Diploma recommendation",
+            "detail": f"{desc} (3 Years · 6 Semesters · ₹25,000/sem, total ₹1,50,000 per L_bat_prch.py). Based on {mark:g}% in Class 12 and {tenth_mark:g}% in Class 10.",
+            "warnings": warnings
+        }
 
     # BSc / BCA Courses
     if course in ("BSc", "BCA"):
@@ -322,10 +366,15 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/me":
             user = user_for(self)
             if not user:
-                return json_response(self, {"user": None, "history": []})
+                return json_response(self, {"user": None, "history": [], "enrollments": []})
             with connect() as db:
                 rows = db.execute("SELECT id,result,created_at FROM recommendations WHERE user_id=? ORDER BY id DESC", (user["id"],)).fetchall()
-            return json_response(self, {"user": user, "history": [{**dict(r), "result": json.loads(r["result"])} for r in rows]})
+                enrollments = db.execute("SELECT id,recommendation_id,course_title,category,plan_type,amount,payment_method,transaction_id,status,created_at FROM enrollments WHERE user_id=? ORDER BY id DESC", (user["id"],)).fetchall()
+            return json_response(self, {
+                "user": user,
+                "history": [{**dict(r), "result": json.loads(r["result"])} for r in rows],
+                "enrollments": [dict(e) for e in enrollments]
+            })
 
         return json_response(self, error("Not found", 404), 404)
 
@@ -412,6 +461,49 @@ class Handler(BaseHTTPRequestHandler):
                     db.execute("UPDATE users SET profession=?,age_band=? WHERE id=?", (answers.get("profession", ""), answers.get("age_band", ""), user["id"]))
                     cur = db.execute("INSERT INTO recommendations(user_id,answers,result) VALUES(?,?,?)", (user["id"], json.dumps(answers), json.dumps(result)))
                 return json_response(self, {"id": cur.lastrowid, "result": result})
+
+            if path == "/api/pay":
+                user = user_for(self)
+                if not user:
+                    return json_response(self, error("Please sign in to complete your course enrollment.", 401), 401)
+                course_title = str(data.get("course_title", "")).strip()[:150]
+                category = str(data.get("category", "")).strip()[:100]
+                plan_type = str(data.get("plan_type", "semester")).strip().lower()
+                amount = data.get("amount")
+                payment_method = str(data.get("payment_method", "card")).strip().lower()
+                rec_id = data.get("recommendation_id")
+
+                if not course_title:
+                    return json_response(self, error("Course title is required."))
+                if plan_type not in ("semester", "half_yearly", "yearly", "full"):
+                    return json_response(self, error("Choose a valid plan: semester, half_yearly, yearly, or full."))
+                if not isinstance(amount, (int, float)) or amount <= 0:
+                    return json_response(self, error("Invalid payment amount."))
+                if payment_method not in ("card", "upi", "netbanking"):
+                    payment_method = "card"
+
+                txn_id = f"CAATS-TXN-{int(time.time())}-{secrets.token_hex(3).upper()}"
+                with connect() as db:
+                    cur = db.execute("""
+                        INSERT INTO enrollments(user_id, recommendation_id, course_title, category, plan_type, amount, payment_method, transaction_id, status)
+                        VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'SUCCESS')
+                    """, (user["id"], rec_id, course_title, category, plan_type, float(amount), payment_method, txn_id))
+                    enrollment_id = cur.lastrowid
+
+                receipt = {
+                    "id": enrollment_id,
+                    "transaction_id": txn_id,
+                    "student_name": user["name"] or user["email"],
+                    "student_email": user["email"],
+                    "course_title": course_title,
+                    "category": category,
+                    "plan_type": plan_type,
+                    "amount": float(amount),
+                    "payment_method": payment_method.upper(),
+                    "status": "SUCCESS",
+                    "created_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                }
+                return json_response(self, {"ok": True, "receipt": receipt})
 
             return json_response(self, error("Not found", 404), 404)
         except (ValueError, json.JSONDecodeError) as e:
